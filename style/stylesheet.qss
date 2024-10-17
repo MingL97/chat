@@ -1,0 +1,14 @@
+QDialog{
+    background-color:rgb(255,255,255);
+}
+
+#user_label
+{
+    color:black;
+}
+#label_error[state='normal']{
+    color:green;
+}
+#label_error[state='err']{
+    color:red;
+}
