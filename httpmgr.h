@@ -19,19 +19,23 @@ class HttpMgr:public QObject,public Singleton<HttpMgr>,
     Q_OBJECT
 public:
     ~HttpMgr();
+    void postHttpReq(QUrl url,QJsonObject json, ReqId reqId,Modules mod);
 private:
     //保证单例可以访问HttpMgr的析构函数
     friend class Singleton<HttpMgr>;
     HttpMgr();
     QNetworkAccessManager _manager;
 
-    void postHttpReq(QUrl url,QJsonObject json, ReqId reqId,Modules mod);
 private slots:
     void slot_http_finished(ReqId id,QString res,ErrorCodes err,Modules mod);
 signals:
     void sig_http_finished(ReqId id,QString res,ErrorCodes err,Modules mod);
 
     void sig_reg_mod_finished(ReqId id,QString res,ErrorCodes err);
+    void sig_reset_mod_finished(ReqId id,QString res,ErrorCodes err);
+    void sig_login_mod_finished(ReqId id,QString res,ErrorCodes err);
+
+
 };
 
 #endif // HTTPMGR_H

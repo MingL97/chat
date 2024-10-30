@@ -34,6 +34,8 @@ void HttpMgr::postHttpReq(QUrl url, QJsonObject json, ReqId reqId, Modules mod)
 
         //无错误
         QString res  = reply->readAll();
+
+        qDebug()<<"recv http :" << res;
         emit self->sig_http_finished(reqId,res,ErrorCodes::SUCCESS,mod);
         reply->deleteLater();
         return;
@@ -44,9 +46,28 @@ void HttpMgr::postHttpReq(QUrl url, QJsonObject json, ReqId reqId, Modules mod)
 
 void HttpMgr::slot_http_finished(ReqId id, QString res, ErrorCodes err, Modules mod)
 {
+    qDebug()<<"emit http_finished id"<<id
+           <<" , mod :" <<mod;
+
     if(mod  == Modules::REGISTER_MOD)
     {
 
         emit sig_reg_mod_finished(id,res,err);
     }
+
+    if(mod  == Modules::RESET_MOD)
+    {
+
+        emit sig_reset_mod_finished(id,res,err);
+    }
+    if(mod == Modules::LOGIN_MOD)
+    {
+
+        emit sig_login_mod_finished(id,res,err);
+
+    }
+
 }
+
+
+

@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QFile>
 #include <qdebug.h>
+#include <global.h>
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +13,6 @@ int main(int argc, char *argv[])
     {
         qDebug("open success");
         QString style = QLatin1String(qss.readAll());
-        qDebug()<<"style:"<<style;
         a.setStyleSheet(style);
         qss.close();
     }
@@ -21,6 +21,16 @@ int main(int argc, char *argv[])
         qDebug("open false");
 
     }
+
+    QString fileName = "config.ini";
+    QString appPath = QCoreApplication::applicationDirPath();
+    QString configPath =  QDir::toNativeSeparators(appPath + QDir::separator() + fileName);
+    QSettings settings(configPath,QSettings::IniFormat);
+    QString gateHost = settings.value("GateServer/host").toString();
+    QString gatePort = settings.value("GateServer/port").toString();
+
+    gate_url_prefix = "http://" +  gateHost + ":" + gatePort;
+
 
 
     MainWindow w;
